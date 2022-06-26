@@ -1,6 +1,7 @@
 import {parseMessage} from "./helpers/parseMessage";
 import robot from 'robotjs';
 import mouseInteraction from "./navigation/index"
+import {screenshot} from "./screenshot/screenshot";
 
 export function onConnect(wsClient: any) {
     wsClient.send("Hello");
@@ -38,8 +39,14 @@ export function onConnect(wsClient: any) {
                     wsClient.send(`${command} ${curPosition.x},${curPosition.y}`);
                 }
                     break;
+                case 'prnt_scrn': {
+                    const curPosition = robot.getMousePos()
+                    const jimp = screenshot(curPosition, robot.screen.capture)
+                    wsClient.send(`${command} not working`);
+                }
+                    break;
                 default:
-                    console.log('Неизвестная команда');
+                    console.log(command);
                     break;
             }
         } catch (error) {
