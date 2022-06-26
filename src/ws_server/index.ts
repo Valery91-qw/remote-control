@@ -8,7 +8,6 @@ export function onConnect(wsClient: any) {
     wsClient.on("message", (msg: Buffer) => {
         try {
             const {command, params} = parseMessage(msg)
-
             switch (command) {
                 case 'mouse_up': {
                     const curPosition = robot.getMousePos()
@@ -39,14 +38,8 @@ export function onConnect(wsClient: any) {
                     wsClient.send(`${command} ${curPosition.x},${curPosition.y}`);
                 }
                     break;
-                case 'prnt_scrn': {
-                    const curPosition = robot.getMousePos()
-                    const jimp = screenshot(curPosition, robot.screen.capture)
-                    wsClient.send(`${command} not working`);
-                }
-                    break;
                 default:
-                    console.log(command);
+                    wsClient.send(`${command} not working`);
                     break;
             }
         } catch (error) {

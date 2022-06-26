@@ -6,5 +6,5 @@ export function screenshot (
     capture: (x?: number, y?: number, width?: number, height?: number) => Bitmap
 ) {
     const screen = capture(position.x, position.y, 200, 200);
-    return new Jimp({data: screen.image})
+    return Jimp.read(screen.image)
 }
